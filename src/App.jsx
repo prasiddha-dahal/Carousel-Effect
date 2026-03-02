@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
 
 const images = [
   "https://picsum.photos/id/1018/800/400",
@@ -6,49 +10,26 @@ const images = [
   "https://picsum.photos/id/1019/800/400"
 ];
 
-export default function App() {
-  const [current, setCurrent] = useState(0);
-
-  const prevSlide = () => {
-    setCurrent(current === 0 ? images.length - 1 : current - 1);
-  };
-
-  const nextSlide = () => {
-    setCurrent(current === images.length - 1 ? 0 : current + 1);
-  };
-
+export default function Carousel() {
   return (
-    <div className="relative w-[800px] mx-auto overflow-hidden rounded-2xl shadow-lg">
-      
-      {/* Slides */}
-      <div
-        className="flex transition-transform duration-500"
-        style={{ transform: `translateX(-${current * 100}%)` }}
+    <div className="w-[800px] mx-auto rounded-2xl overflow-hidden shadow-lg">
+      <Swiper
+        modules={[Navigation]}
+        navigation
+        loop={true}
+        speed={500}
+        className="w-full"
       >
         {images.map((img, index) => (
-          <img
-            key={index}
-            src={img}
-            alt="slide"
-            className="w-full flex-shrink-0"
-          />
+          <SwiperSlide key={index}>
+            <img
+              src={img}
+              alt="slide"
+              className="w-full h-[400px] object-cover"
+            />
+          </SwiperSlide>
         ))}
-      </div>
-
-      {/* Buttons */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded-full"
-      >
-        ❮
-      </button>
-
-      <button
-        onClick={nextSlide}
-        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded-full"
-      >
-        ❯
-      </button>
+      </Swiper>
     </div>
   );
 }
